@@ -1,4 +1,4 @@
-## this a python program to download web information that your want
+## this a python program using to download web information that your want
 
 ---
 >it just a craw framework,you should modify it if you want to use.
