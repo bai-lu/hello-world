@@ -1,7 +1,7 @@
-from baike_spider import url_manager
-from baike_spider import html_downloader
-from baike_spider import html_outputer
-from baike_spider import html_parser
+import html_outputer
+import html_parser
+import html_downloader
+import url_manager
 
 
 class SpiderMain(object):
@@ -24,13 +24,11 @@ class SpiderMain(object):
                 self.outputer.collect_data(new_data)
             except:
                 print("craw failed")
-
-            if count == 10:
+            if count == 5:
                 break
             count += 1
-
-        self.outputer.output_html()
-
+        self.outputer.output_to_redis()
+        self.outputer.output_to_local_file()
 
 if __name__ == '__main__':
     root_url = "http://baike.baidu.com/view/21087.htm"
