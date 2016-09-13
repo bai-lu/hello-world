@@ -14,6 +14,7 @@ class UrlManager(object):
             return
         for url in urls:
             self.add_new_url(url)
+        return self.new_urls
 
     def has_new_url(self):
         return len(self.new_urls) != 0

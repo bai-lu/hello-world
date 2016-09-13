@@ -9,6 +9,7 @@ class HtmlOutputer(object):
         if data is None:
             return
         self.datas.append(data)
+        return self.datas
 
     def output_to_redis(self):
         db = redis.Redis(host='192.168.15.132', port=6379, db=0)
