@@ -6,7 +6,8 @@ from bs4 import BeautifulSoup
 class HtmlParser(object):
     def _get_new_urls(self, page_url, soup):
         new_urls =set()
-        links = soup.find_all('a', href=re.compile(r"/view/\d+\.htm"))
+       # links = soup.find_all('a', href=re.compile(r"/view/\d+\.htm"))
+        links = soup.find_all('a', href=re.compile(r".*\.asp$"))
         for link in links:
             new_url = link['href']
             new_full_url = urllib.parse.urljoin(page_url, new_url)
@@ -17,14 +18,16 @@ class HtmlParser(object):
         res_data = {}
         # url
         res_data['url'] = page_url
-
-        #    class ="lemmaWgt-lemmaTitle-title" >
-        title_node = soup.find('dd', class_="lemmaWgt-lemmaTitle-title").find('h1')
-        res_data['title'] = title_node.get_text()
-
-        #   <div class="lemma-summary">
-        summary_node = soup.find('div', class_="lemma-summary")
-        res_data['summary'] = summary_node.get_text()
+        title_node = soup.find('h2')
+        if title_node == None:
+            res_data['title'] = None
+        else:
+            res_data['title'] = title_node.get_text()
+        summary_node = soup.find('p')
+        if summary_node == None:
+            res_data['summary'] = None
+        else:
+            res_data['summary'] = summary_node.get_text()
         return res_data
 
     def parse(self, page_url, html_cont):
@@ -35,3 +38,4 @@ class HtmlParser(object):
         new_urls = self._get_new_urls(page_url, soup)
         new_data = self._get_new_data(page_url, soup)
         return new_urls, new_data
+        # return new_urls
